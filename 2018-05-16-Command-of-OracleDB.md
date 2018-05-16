@@ -1,9 +1,9 @@
-jsp/spring 학습시 필요한 oracle db 의 기본명령어들
-
+# jsp/spring 학습시 필요한 oracle db 의 기본명령어들
 
 
 ## 1.계정 관련
 ### 1.1.계정 확인
+
 SQL> SHOW USER;
 
 
