@@ -33,8 +33,8 @@ SQL> exit
 ### 테이블생성
 <pre>
 SQL> create table TABLENAME (COL1NAME TYPE1(size), COL2NAME TYPE2(size));
-SQL> create table MEMBER (id varchar2(20) primary key, pw varchar2(20), name varchar2(20));
-SQL> create table MTMEMBER (id varchar2(20) primary key, pw varchar2(20), name varchar2(20));
+SQL> create table member (id varchar2(20) primary key, pw varchar2(20), name varchar2(20), phone VARCHAR2(20));
+SQL> create table mtmember (id varchar2(20) primary key, pw varchar2(20), name varchar2(20));
 </pre>
 
 ### 테이블검색
@@ -44,428 +44,203 @@ SQL> select * from tab;
 
 ### 테이블구조확인
 <pre>
-SQL>DESC MTMEMBER;
+SQL>DESC mtmember;
 </pre>
 
 
 ### 테이블변경 - 칼럼추가
 <pre>
-SQL>ALTER TABLE MTMEMBER ADD(phone VARCHAR2(10));
-SQL>ALTER TABLE MTMEMBER ADD(memo VARCHAR2(10), memo2 VARCHAR2(10));
+SQL>ALTER TABLE mtmember ADD(phone VARCHAR2(20));
+SQL>ALTER TABLE mtmember ADD(memo VARCHAR2(20), memo2 VARCHAR2(20));
 </pre>
 
 ### 테이블변경 - 칼럼삭제
 <pre>
-SQL>ALTER TABLE MTMEMBER DROP(memo2);
+SQL>ALTER TABLE mtmember DROP(memo2);
 </pre>
 
 ### 테이블삭제
 <pre>
-SQL>DROP TABLE MTMEMBER;
+SQL>DROP TABLE mtmember;
 </pre>
 
 ### 레코드추가
 <pre>
-SQL>INSERT INTO MEMBER(test_id, test_name, test_date) VALUES(100, 'honggildong', sysdate);
-SQL>INSERT INTO MEMBER (id, name, phone, pw)  VALUES ('abc', '김가나', '555-5555', '112' );
+SQL>INSERT INTO member (id, name, phone, pw)  VALUES ('abc', '김가나', '555-5555', '112' );
+SQL>INSERT INTO member (id, name, phone, pw)  VALUES ('aaa', '김안나', '555-5556', '101' );
+SQL>INSERT INTO member (id, name, phone, pw)  VALUES ('ba1', '기러기', '555-5557', '201' );
+SQL>INSERT INTO member (id, name, phone, pw)  VALUES ('ba2', '갈매기', '555-5558', '202' );
+SQL>INSERT INTO member (id, name, phone, pw)  VALUES ('ab1', '최가나', '555-5560', '112' );
+SQL>INSERT INTO member (id, name, phone, pw)  VALUES ('aa2', '최안나', '555-5561', '101' );
+SQL>INSERT INTO member (id, name, phone, pw)  VALUES ('ba3', '최러기', '555-5562', '201' );
+SQL>INSERT INTO member (id, name, phone, pw)  VALUES ('ba4', '최매기', '555-5563', '202' );
 </pre>
 
+### 커밋
+<pre>
+SQL>commit;
+</pre>
 
-4.1.레코드 삽입
-SQL>INSERT INTO testtable(test_id, test_name, test_date)
-    VALUES(100, 'honggildong', sysdate);
-4.2.레코드 수정
-SQL>UPDATE testtable SET test_name = 'test001' WHERE test_id = '001';
-4.3.레코드 확인
-SQL>SELECT * FROM testtable;
-*는 모든 열을 보여달라는 것이며, 몇몇개를 집어서 보여달라고 하고 싶으면,
-SQL>SELECT test_id, test_name FROM testtable;
-이라고 열 이름을 명시한다.
+### 레코드수정
+<pre>
+SQL>UPDATE member SET name = '한가나' WHERE id = 'abc';
+</pre>
 
-그리고 다른 조건을 추가하고 싶으면,
-SQL>SELECT test_id FROM testtable WHERE test_name='test001';
-이렇게 WHERE로 묶어준다.
+### 레코드확인
+<pre>
+SQL>SELECT * FROM member;
+SQL>SELECT id, name FROM member;
+SQL>SELECT id FROM member WHERE name='한가나';
+</pre>
 
-4.4.레코드 삭제
-SQL>DELETE FROM testtable WHERE test_name = 'test001';
+### 레코드삭제
+<pre>
+SQL>DELETE FROM member WHERE name = '최러기';
+</pre>
 
+### 커밋(여기까지 저장)
+<pre>
+SQL>commit;
+</pre>
 
-
-
-
+<hr/>
 
 ## A.계정 관련
-
-* 계정 확인
+### 현재 계정 확인
 <pre>
 SQL> SHOW USER;
 </pre>
 
-
-* 모든 계정을 확인
+#### 모든 계정 확인
+<pre>
 SQL>SELECT * FROM all_users;
+</pre>
 
-* SYS 계정으로
-SQL>SYS as sysdba
-
-비밀번호 입력 : (그냥 엔터)
-
-
-
-비밀번호가 필요없는 SYS 계정이다.
-
-
-
-만약 DB가 여러개라서 다른 DB의 SYS 계정으로 접속하려고 하면 @다른DB_SID 를 추가해준다.
-
-SQL>SYS@coreDB /as sysdba
-
-비밀번호 입력 : (그냥 엔터)
-
-
-
-
-
-1.4.계정 생성
-
-SQL>CREATE USER testuser IDENTIFIED BY "testpwd";
-
-
-
-새로운 사용자인 testuser를 생성한다.
-
-비밀 번호는 testpwd로 세팅한다. 따옴표(")는 꼭 붙여주자. 
-
-없어도 생성은 되는데, 나중에 대소문자 문제로 에러가 발생하는 경우도 있다.
-
-
-
-그리고 계정 생성 후 바로 그 계정을 사용하려고 하면 없다고 나온다.
-
-왜! 내가 바로 방금 만들었다능!! 이라고 소리쳐도 소용없다. 권한을 주고 사용하자.
-
-
-
-
-
-1.5.다른 계정으로 넘어가기
-
-SQL>conn testuser/testuser;
-
-
-
-다른 DB의 계정으로 넘어가는 것은 패스워드 뒤에 @다른DB_SID를 붙여준다.
-
-
-
+### 다른 계정으로
+<pre>
+SQL>conn scott1/tiger;
+SQL>conn scott/tiger;
 SQL>conn testuser/testuser@coreDB;
+</pre>
 
+#### 비밀번호변경
+<pre>
+SQL>connect system/oracle;
+SQL>ALTER USER scott1 IDENTIFIED BY "tiger1";
+SQL>connect scott1/tiger1;
+SQL>connect scott/tiger;
+</pre>
 
+#### 계정삭제
+<pre>
+SQL>connect system/oracle;
+SQL>DROP USER scott1;
+SQL>DROP USER scott1 CASCADE;
+SQL>connect scott/tiger;
+</pre>
 
-conn 대신 connect 로도 대체 가능하다.
 
 
 
+## B.권한 관련
+### 사용자계정에 접속 권한 주기
+<pre>
+SQL>connect system/oracle;
+SQL>GRANT CONNECT, RESOURCE TO scott;
+</pre>
 
+### 사용자계정에 접속 권한 취소
+<pre>
+SQL>connect system/oracle;
+SQL>REVOKE CONNECT, RESOURCE FROM scott;
+</pre>
 
-1.6.계정 비밀번호 변경
 
-SQL>ALTER USER testuser IDENTIFIED BY "chagepwd";
 
 
-
-role 등 다른 변경사항은 검색하도록 하자. 나도 초보라능!
-
-물론 변경 뒤 다시 resource와 connect를 주도록 하자.(2.1.참조)
-
-
-
-
-
-1.7.계정 삭제
-
-SQL>DROP USER testuser;
-
-
-
-사라졋!
-
-하지만 여기저기 문어발로 걸쳐놓은 것이 있는 한 많은 계정이라면 그냥 사라지지 않는다.
-
-이때는 CASCADE를 사용하여 해당 사용자의 모든 SCHEMA를 삭제한 뒤에, user 를 삭제한다.
-
-
-
-SQL>DROP USER testuser CASCADE;
-
-
-
-이렇게 꼼꼼하게 없애준다.
-
-
-
-
-
-
-
-2.권한관련
-
-(SYSTEM 계정으로만 가능)
-
-
-
-2.1.접속 권한 주기
-
-SQL>GRANT CONNECT, RESOURCE TO testuser;
-
-
-
-testuser에게 접속 권한을 준다. 물론 이런 중요한 역할은 SYSTEM 계정이 담당한다.
-
-CONNECT와 RESOURCE에 어떤 권한이 걸려 있는지 확인하려면,
-
-
-
-SQL>SELECT * DBA_SYS_PRIVS WHERE GRANTEE = 'CONNECT';
-
-
-
-
-
-2.2.사용자에게 권한 주기
-
-SQL>GRANT DELETE, INSERT, SELECT, UPDATE ON testdb TO testuser;
-
-
-
-testuser라는 사용자에게 testdb라는 데이터베이스의 권한을 준다.
-
-이때, 권한의 종류 DELETE, SELECT 등은 관리자 마음대로 선택하여 줄 수 있다.
-
-
-
-SQL>GRANT SELECT ON testdb TO testuser;
-
-
-
-이런 식으로 testuser에서 testdb에서 권한을 select만 줄 수 있다.
-
-이때 testuser는 select 이외의 create, delete 등의 동작은 할 수 없다.
-
-우리가 월급 받은 만큼만 일하듯, 얘네도 권한을 받은 만큼 일을 한다.
-
-
-
-
-
-2.3.DBA 권한 주기
-
-SQL>GRANT DBA TO testuser;
-
-
-
-testuser에게 DBA 권한을 준다.
-
-
-
-
-
-2.4.권한 취소
-
-SQL>REVOKE CONNECT, RESOURCE FROM testuser;
-
-
-
-Connect와 resource 자리는 select 라든지의 값으로 대체 가능하다.
-
-
-
-
-
-
-
-3.테이블 관련
-
-
-
-3.1.모든 테이블 보기
-
+## C. 테이블 관련
+### 모든 테이블 보기
+<pre>
 SQL>SELECT * FROM TAB;
-
-
-
-
-
-3.2.테이블 구조 확인하기
-
-SQL>DESC testtable;
-
-
-
-testtable의 구조를 확인할 수 있다.
-
-
-
-
-
-3.3.테이블 생성
-
-SQL>CREATE TABLE testtable (
-
-    test_id NUMBER(10) NOT NULL,
-
-    test_name VARCHAR2(10) NOT NULL,
-
-    test_date DATE NOT NULL);
-
-
-
-MySQL에서 ORACLE로 변경시,
-
-int형은 number로,
-
-varchar형은 varchar2로,
-
-datetime형은 date로 변경한다.
-
-
-
-
-
-3.4.코멘트 추가
-
-SQL>COMMENT ON TABLE testtable IS 'This table is test table';
-
-SQL>COMMENT ON COLUMN testtable.testfield IS 'This column is test column of testtabe';
-
-
-
-table과 column일때 각각 코멘트를 추가할 수 있다. 코멘트 내용은 ''로 묶는다.
-
-
-
-
-
-3.5.테이블 변경 - 컬럼 추가
-
-SQL>ALTER TABLE testtable ADD(testcolumn VARCHAR2(10));
-
-
-
-컬럼(testcolumn)을 추가한다.
-
-
-
-
-
-3.6.테이블 변경 - 컬럼 타입 변경
-
-SQL>ALTER TABLE testtable MODIFY(column001 NUMBER);
-
-
-
-column001 컬럼의 타입을 number로 변경한다.
-
-
-
-
-
-3.7.테이블 변경 - 컬럼 삭제
-
-SQL>ALTER TABLE testtable DROP(column001);
-
-
-
-column001 컬럼을 삭제한다.
-
-
-
-
-
-3.8.테이블 삭제
-
-SQL>DROP TABLE testtable;
-
-
-
-
-
-
-
-4.값 입출력
-
-
-
-4.1.레코드 삽입
-
-SQL>INSERT INTO testtable(test_id, test_name, test_date)
-
-    VALUES(100, 'honggildong', sysdate);
-
-
-
-
-
-4.2.레코드 수정
-
-SQL>UPDATE testtable SET test_name = 'test001' WHERE test_id = '001';
-
-
-
-
-
-4.3.레코드 확인
-
-SQL>SELECT * FROM testtable;
-
-
-
-*는 모든 열을 보여달라는 것이며, 몇몇개를 집어서 보여달라고 하고 싶으면,
-
-
-
-SQL>SELECT test_id, test_name FROM testtable;
-
-
-
-이라고 열 이름을 명시한다.
-
-그리고 다른 조건을 추가하고 싶으면,
-
-
-
-SQL>SELECT test_id FROM testtable WHERE test_name='test001';
-
-
-
-이렇게 WHERE로 묶어준다.
-
-
-
-
-
-4.4.레코드 삭제
-
-SQL>DELETE FROM testtable WHERE test_name = 'test001';
-
-
-
-
-
-
-
-5.기타 유용한 커맨드
-
-
-
-5.1.DB명 확인
-
+</pre>
+
+### 테이블 구조보기
+<pre>
+SQL>DESC member;
+</pre>
+
+### 테이블생성
+<pre>
+
+SQL> create table TABLENAME (COL1NAME TYPE1(size), COL2NAME TYPE2(size));
+SQL> create table member (id varchar2(20) primary key, pw varchar2(20), name varchar2(20), phone VARCHAR2(20));
+SQL> create table mtmember (
+        id varchar2(20) primary key, 
+        pw varchar2(20), 
+        name varchar2(20),
+        birthday date,
+        studentnum number);
+        
+</pre>
+
+
+### 테이블변경 - 칼럼추가
+<pre>
+SQL>ALTER TABLE mtmember ADD(phone VARCHAR2(20));
+SQL>ALTER TABLE mtmember ADD(memo VARCHAR2(20), memo2 VARCHAR2(20));
+</pre>
+
+### 테이블변경 - 칼럼삭제
+<pre>
+SQL>ALTER TABLE mtmember DROP(memo2);
+</pre>
+
+### 테이블삭제
+<pre>
+SQL>DROP TABLE mtmember;
+</pre>
+
+
+
+
+
+## D. 입출력
+### 레코드추가
+<pre>
+SQL>INSERT INTO member (id, name, phone, pw)  VALUES ('abc', '김가나', '555-5555', '112' );
+</pre>
+
+### 커밋
+<pre>
+SQL>commit;
+</pre>
+
+### 레코드수정
+<pre>
+SQL>UPDATE member SET name = '한가나' WHERE id = 'abc';
+</pre>
+
+### 레코드확인
+<pre>
+SQL>SELECT * FROM member;
+SQL>SELECT id, name FROM member;
+SQL>SELECT id FROM member WHERE name='한가나';
+</pre>
+
+### 레코드삭제
+<pre>
+SQL>DELETE FROM member WHERE name = '최러기';
+</pre>
+
+
+## E. 기타
+### DB명 확인
+<pre>
 SQL>SELECT NAME, DB_UNIQUE_NAME FROM v$database;
+</pre>
 
-
-
-
-
-5.2.SID 확인
-
+### SID 확인
+<pre>
 SQL>SELECT INSTANCE FROM v$thread;
+</pre>
+
