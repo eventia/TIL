@@ -4,31 +4,108 @@ jsp/spring 학습시 필요한 oracle db (sqlplus) 의 기본명령어들
 설치 후 첫실행
 --------------
 
+### 관리자계정접속
 <pre>
 > sqlplus system/oracle
 </pre>
 
-* 계정생성
+### 사용자계정생성
 <pre>
 SQL> create user scott identified by "tiger";
 </pre>
 "tiger" 란 비밀번호를 가진 scott 란 ID 를  만든다.
 
+### 인증
 <pre>
 SQL> grant connect, resource to scott;
 </pre>
 
+### 종료
+<pre>
+SQL> exit
+</pre>
 
-## 1.계정 관련
-### 1.1.계정 확인
+### 사용자계정접속
+<pre>
+> sqlplus scott/tiger
+</pre>
 
+### 테이블생성
+<pre>
+SQL> create table TABLENAME (COL1NAME TYPE1(size), COL2NAME TYPE2(size));
+SQL> create table MEMBER (id varchar2(20) primary key, pw varchar2(20), name varchar2(20));
+SQL> create table MTMEMBER (id varchar2(20) primary key, pw varchar2(20), name varchar2(20));
+</pre>
+
+### 테이블검색
+<pre>
+SQL> select * from tab;
+</pre>
+
+### 테이블구조확인
+<pre>
+SQL>DESC MTMEMBER;
+</pre>
+
+
+### 테이블변경 - 칼럼추가
+<pre>
+SQL>ALTER TABLE MTMEMBER ADD(phone VARCHAR2(10));
+SQL>ALTER TABLE MTMEMBER ADD(memo VARCHAR2(10), memo2 VARCHAR2(10));
+</pre>
+
+### 테이블변경 - 칼럼삭제
+<pre>
+SQL>ALTER TABLE MTMEMBER DROP(memo2);
+</pre>
+
+### 테이블삭제
+<pre>
+SQL>DROP TABLE MTMEMBER;
+</pre>
+
+### 레코드추가
+<pre>
+SQL>INSERT INTO MEMBER(test_id, test_name, test_date) VALUES(100, 'honggildong', sysdate);
+SQL>INSERT INTO MEMBER (id, name, phone, pw)  VALUES ('abc', '김가나', '555-5555', '112' );
+</pre>
+
+
+4.1.레코드 삽입
+SQL>INSERT INTO testtable(test_id, test_name, test_date)
+    VALUES(100, 'honggildong', sysdate);
+4.2.레코드 수정
+SQL>UPDATE testtable SET test_name = 'test001' WHERE test_id = '001';
+4.3.레코드 확인
+SQL>SELECT * FROM testtable;
+*는 모든 열을 보여달라는 것이며, 몇몇개를 집어서 보여달라고 하고 싶으면,
+SQL>SELECT test_id, test_name FROM testtable;
+이라고 열 이름을 명시한다.
+
+그리고 다른 조건을 추가하고 싶으면,
+SQL>SELECT test_id FROM testtable WHERE test_name='test001';
+이렇게 WHERE로 묶어준다.
+
+4.4.레코드 삭제
+SQL>DELETE FROM testtable WHERE test_name = 'test001';
+
+
+
+
+
+
+## A.계정 관련
+
+* 계정 확인
+<pre>
 SQL> SHOW USER;
+</pre>
 
 
-### 1.2.모든 계정을 확인
+* 모든 계정을 확인
 SQL>SELECT * FROM all_users;
 
-### 1.3.SYS 계정으로
+* SYS 계정으로
 SQL>SYS as sysdba
 
 비밀번호 입력 : (그냥 엔터)
