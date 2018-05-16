@@ -1,4 +1,14 @@
-# jsp/spring 학습시 필요한 oracle db 의 기본명령어들
+jsp/spring 학습시 필요한 oracle db (sqlplus) 의 기본명령어들
+=========================================
+
+설치 후 첫실행
+--------------
+
+.> sqlplus system/oracle
+
+* 계정생성
+SQL> create user scott identified by "tiger";
+"tiger" 란 비밀번호를 가진 scott 란 ID 를  만든다.
 
 
 ## 1.계정 관련
